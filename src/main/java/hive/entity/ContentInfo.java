@@ -74,7 +74,7 @@ public class ContentInfo {
                 ", commentsCount=" + commentsCount +
                 '}';
     }
-    public String toString4FileOutput(){
+    public String toString4FileOutput(String seq){
         List<Object> fieldList = new ArrayList<>();
 //        fieldList.add(uid);
         fieldList.add(content);
@@ -83,6 +83,6 @@ public class ContentInfo {
         fieldList.add(commentsCount);
         // 注意三目运算符的优先级，三目优先级最低。
 //        System.out.println("screenName="+(screenName == null?"null":"null字符串"));
-        return StringUtil.join(fieldList,"\t");
+        return StringUtil.join(fieldList,seq);
     }
 }
