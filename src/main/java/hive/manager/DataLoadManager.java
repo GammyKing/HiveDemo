@@ -9,30 +9,14 @@ import hive.utils.XmlParserUtil;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class DataLoadManager {
-    //取得所有文件内的行
-    public static List<String> getAllFileLineList(String inputDir,String charset) throws IOException {
-        ArrayList<String> resultList = new ArrayList<>();
-        //获取所有文件名的集合
-        List<String> txtFilePathList = FileOperatorUtil.getAllSubFilePath(inputDir);
-        int fileCounter = 0;
-        //获取文件内容
-        for (String txtFilePath : txtFilePathList) {
-            List<String> singleTxtLineList = IOUtil.getTxtContent(txtFilePath, charset);
-            resultList.addAll(singleTxtLineList);
-            fileCounter++;
-        }
-        System.out.println("共执行"+fileCounter+"个文件。");
-        //返回所有文本的内容
-        return resultList;
-    }
 
+
+public class DataLoadManager {
 
     //获得构建实体，传入所有文本内容 一个文件一个行
     public static UserAndContentInfoEntity getConstructInfoEntity(List<String> resultList) throws DocumentException, IOException {
@@ -183,10 +167,11 @@ public class DataLoadManager {
         IOUtil.writeListToFile(stringBuilder.toString(),contentOutputFilePath,outputCharset);
         return true;
     }
+
     public static void startProcess(String inputPath,String inputCharset,String output4User,String output4Content,String charset,String seq) throws IOException, DocumentException {
         long startTime = System.currentTimeMillis();    //获取开始时间
         System.out.println("程序开始！");
-        List<String> resultList = getAllFileLineList(inputPath,inputCharset);
+        List<String> resultList = FileOperatorUtil.getAllFileLineList(inputPath,inputCharset);
         UserAndContentInfoEntity userAndContentInfoEntity = getConstructInfoEntity(resultList);
         writePojoToFile(userAndContentInfoEntity,output4User,output4Content,charset,seq);
         long endTime = System.currentTimeMillis();    //获取结束时间
